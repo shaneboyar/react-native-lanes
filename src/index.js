@@ -19,8 +19,14 @@ class Lanes extends Component {
       case "easeInEaseOut":
         this._layoutAnimationStyle = () => LayoutAnimation.easeInEaseOut();
         return;
-      default:
+      case "linear":
+        this._layoutAnimationStyle = () => LayoutAnimation.linear();
+        return;
+      case "spring":
         this._layoutAnimationStyle = () => LayoutAnimation.spring();
+        return;
+      default:
+        this._layoutAnimationStyle = () => LayoutAnimation.easeInEaseOut();
     }
   }
 

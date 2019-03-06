@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
 # Customization
 
 The wrapping `Lanes` component can accept the following props:
+* `animation`: A string ("easeInEaseOut", "linear", or "spring") that determines the expand/contract animation.
 * `defaultFontSize`: The font size for all the `title` elements when no lane is expanded.
 * `expandedFontSize`: The font size that will be applied to the expanded lane's title.
 * `collapsedFontSize`: The font size that will be applied to the collapsed lanes' titles.
