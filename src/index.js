@@ -1,28 +1,33 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   View,
   Dimensions,
   TouchableWithoutFeedback,
   LayoutAnimation,
   Text,
-} from 'react-native';
-import PropTypes from 'prop-types';
+  UIManager,
+  ViewPropTypes
+} from "react-native";
+import PropTypes from "prop-types";
+
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 
 class Lanes extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      openIndex: null,
+      openIndex: null
     };
 
     switch (props.animation) {
-      case 'easeInEaseOut':
+      case "easeInEaseOut":
         this._layoutAnimationStyle = () => LayoutAnimation.easeInEaseOut();
         return;
-      case 'linear':
+      case "linear":
         this._layoutAnimationStyle = () => LayoutAnimation.linear();
         return;
-      case 'spring':
+      case "spring":
         this._layoutAnimationStyle = () => LayoutAnimation.spring();
         return;
       default:
@@ -30,10 +35,10 @@ class Lanes extends Component {
     }
   }
 
-  _animateLanes = (index) => {
+  _animateLanes = index => {
     this._layoutAnimationStyle();
     this.setState(({ openIndex }) => ({
-      openIndex: openIndex === index ? null : index,
+      openIndex: openIndex === index ? null : index
     }));
   };
 
@@ -43,10 +48,10 @@ class Lanes extends Component {
       defaultFontSize,
       expandAmount,
       expandedFontSize,
-      collapsedFontSize,
+      collapsedFontSize
     } = this.props;
     const { openIndex } = this.state;
-    const { width } = Dimensions.get('screen');
+    const { width } = Dimensions.get("screen");
 
     return React.Children.map(children, (child, index) => {
       let flexValue;
@@ -63,13 +68,13 @@ class Lanes extends Component {
       return (
         <TouchableWithoutFeedback
           key={index}
-          onPress={this._animateLanes(index)}
+          onPress={() => this._animateLanes(index)}
         >
           <View
             style={{
               flex: flexValue,
               width,
-              ...child.props.laneStyle,
+              ...child.props.laneStyle
             }}
           >
             <Text style={{ fontSize, ...child.props.titleStyle }}>
@@ -89,25 +94,25 @@ class Lanes extends Component {
 }
 
 Lanes.propTypes = {
-  animation: PropTypes.oneOf(['easeInEaseOut', 'spring', 'linear']),
+  animation: PropTypes.oneOf(["easeInEaseOut", "spring", "linear"]),
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
+    PropTypes.node
   ]).isRequired,
   collapsedFontSize: PropTypes.number,
   defaultFontSize: PropTypes.number,
   expandAmount: PropTypes.number,
   expandedFontSize: PropTypes.number,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style
 };
 
 Lanes.defaultProps = {
-  animation: 'easeInEaseOut',
+  animation: "easeInEaseOut",
   collapsedFontSize: 16,
   defaultFontSize: 34,
   expandAmount: 0.9,
   expandedFontSize: 68,
-  style: {},
+  style: {}
 };
 
 export default Lanes;
