@@ -9,7 +9,6 @@ import {
   ViewPropTypes
 } from 'react-native';
 import PropTypes from 'prop-types';
-import shortid from 'shortid';
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -20,8 +19,6 @@ class Lanes extends Component {
     this.state = {
       openIndex: null
     };
-
-    this._ids = props.children.map(() => shortid.generate());
 
     switch (props.animation) {
       case 'easeInEaseOut':
@@ -68,9 +65,9 @@ class Lanes extends Component {
         flexValue = 0.1 / (children.length - 1);
         fontSize = collapsedFontSize;
       }
-      const id = this._ids[index];
       return (
-        <TouchableWithoutFeedback key={id} onPress={() => this._animateLanes(index)}>
+        // Require Key Prop?
+        <TouchableWithoutFeedback key={child.key} onPress={() => this._animateLanes(index)}>
           <View
             style={{
               flex: flexValue,
