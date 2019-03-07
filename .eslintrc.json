@@ -2,7 +2,10 @@
     "env": {
         "es6": true
     },
-    "extends": "airbnb",
+    "extends": [
+        "airbnb",
+        "prettier"
+    ],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
@@ -16,10 +19,14 @@
     },
     "parser": "babel-eslint",
     "plugins": [
-        "react"
+        "react",
+        "prettier"
     ],
     "rules": {
         "import/no-unresolved": "off",
-        "no-underscore-dangle": ["error", { "allowAfterThis": true }]
+        "no-unused-expressions": "warn",
+        "react/jsx-filename-extension": "off",
+        "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+        "prettier/prettier": ["error"]
     }
 }

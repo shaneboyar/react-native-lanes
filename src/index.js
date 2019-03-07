@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   View,
   Dimensions,
@@ -7,8 +7,9 @@ import {
   Text,
   UIManager,
   ViewPropTypes
-} from "react-native";
-import PropTypes from "prop-types";
+} from 'react-native';
+import PropTypes from 'prop-types';
+import shortid from 'shortid';
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -20,14 +21,16 @@ class Lanes extends Component {
       openIndex: null
     };
 
+    this._ids = props.children.map(() => shortid.generate());
+
     switch (props.animation) {
-      case "easeInEaseOut":
+      case 'easeInEaseOut':
         this._layoutAnimationStyle = () => LayoutAnimation.easeInEaseOut();
         return;
-      case "linear":
+      case 'linear':
         this._layoutAnimationStyle = () => LayoutAnimation.linear();
         return;
-      case "spring":
+      case 'spring':
         this._layoutAnimationStyle = () => LayoutAnimation.spring();
         return;
       default:
@@ -51,7 +54,7 @@ class Lanes extends Component {
       collapsedFontSize
     } = this.props;
     const { openIndex } = this.state;
-    const { width } = Dimensions.get("screen");
+    const { width } = Dimensions.get('screen');
 
     return React.Children.map(children, (child, index) => {
       let flexValue;
@@ -65,11 +68,9 @@ class Lanes extends Component {
         flexValue = 0.1 / (children.length - 1);
         fontSize = collapsedFontSize;
       }
+      const id = this._ids[index];
       return (
-        <TouchableWithoutFeedback
-          key={index}
-          onPress={() => this._animateLanes(index)}
-        >
+        <TouchableWithoutFeedback key={id} onPress={() => this._animateLanes(index)}>
           <View
             style={{
               flex: flexValue,
@@ -77,9 +78,7 @@ class Lanes extends Component {
               ...child.props.laneStyle
             }}
           >
-            <Text style={{ fontSize, ...child.props.titleStyle }}>
-              {child.props.title}
-            </Text>
+            <Text style={{ fontSize, ...child.props.titleStyle }}>{child.props.title}</Text>
             {React.cloneElement(child, child.props)}
           </View>
         </TouchableWithoutFeedback>
@@ -94,11 +93,8 @@ class Lanes extends Component {
 }
 
 Lanes.propTypes = {
-  animation: PropTypes.oneOf(["easeInEaseOut", "spring", "linear"]),
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]).isRequired,
+  animation: PropTypes.oneOf(['easeInEaseOut', 'spring', 'linear']),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
   collapsedFontSize: PropTypes.number,
   defaultFontSize: PropTypes.number,
   expandAmount: PropTypes.number,
@@ -107,7 +103,7 @@ Lanes.propTypes = {
 };
 
 Lanes.defaultProps = {
-  animation: "easeInEaseOut",
+  animation: 'easeInEaseOut',
   collapsedFontSize: 16,
   defaultFontSize: 34,
   expandAmount: 0.9,
