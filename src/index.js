@@ -67,7 +67,10 @@ class Lanes extends Component {
       }
       return (
         // Require Key Prop?
-        <TouchableWithoutFeedback key={child.key} onPress={() => this._animateLanes(index)}>
+        <TouchableWithoutFeedback
+          key={child.props.key || child.key}
+          onPress={() => this._animateLanes(index)}
+        >
           <View
             style={{
               flex: flexValue,
@@ -75,7 +78,9 @@ class Lanes extends Component {
               ...child.props.laneStyle
             }}
           >
-            <Text style={{ fontSize, ...child.props.titleStyle }}>{child.props.title}</Text>
+            {child.props.title && (
+              <Text style={{ fontSize, ...child.props.titleStyle }}>{child.props.title}</Text>
+            )}
             {React.cloneElement(child, child.props)}
           </View>
         </TouchableWithoutFeedback>
